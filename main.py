@@ -29,6 +29,15 @@ def testdb():
     first_db = db()
     print(first_db.get_connection())
 
+@app.command()
+def insertdb():
+    first_db = db()
+    first_db.db_insert(title="Test Task", duration="0", start_time="0", end_time="0", is_tracking=0)
+
+@app.command()
+def readtestdb():
+    first_db = db()
+    first_db.db_read()
 
 def main(title):
     x = Task(title)

@@ -19,6 +19,7 @@ class Database():
         cursor = self.connection.cursor()
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS tasks (
+            title TEXT
             duration TEXT
             start_time TEXT
             end_time TEXT
@@ -38,3 +39,23 @@ class Database():
 
     def get_connection(self):
         return self.connection
+
+    def db_insert(self, title, duration, start_time, end_time, is_tracking):
+        conn = self.db_connect()
+        cursor = self.connection.cursor()
+        cursor.execute('''
+            INSERT INTO tasks (title, duration, start_time, end_time, is_tracking)
+            VALUES (?, ?, ?, ?, ?)
+        ''', (title, duration, start_time, end_time, is_tracking))
+        conn.commit()
+        cursor.close()
+        self.db_close()
+
+    def db_read(self):
+        conn = self.db_connect()
+        cursor = self.connection.cursor()
+        cursor.execute("""
+            SELECT title, duration, start_time, end_time, is_tracking FROM tasks ORDER BY end_time
+            """)
+        rows = cursor.fetchall()
+        print(rows)
