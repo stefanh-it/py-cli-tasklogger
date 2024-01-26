@@ -19,12 +19,13 @@ class Database():
         cursor = self.connection.cursor()
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS tasks (
-            title TEXT
-            duration TEXT
-            start_time TEXT
-            end_time TEXT
+            id INTEGER PRIMARY KEY,
+            title TEXT,
+            duration TEXT,
+            start_time TEXT,
+            end_time TEXT,
             is_tracking INTEGER
-            )
+            );
         ''')
         print('Database initialized')
         # Commit the changes to the database
@@ -45,7 +46,7 @@ class Database():
         cursor = self.connection.cursor()
         cursor.execute('''
             INSERT INTO tasks (title, duration, start_time, end_time, is_tracking)
-            VALUES (?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?);
         ''', (title, duration, start_time, end_time, is_tracking))
         conn.commit()
         cursor.close()
@@ -55,7 +56,7 @@ class Database():
         conn = self.db_connect()
         cursor = self.connection.cursor()
         cursor.execute("""
-            SELECT title, duration, start_time, end_time, is_tracking FROM tasks ORDER BY end_time
+            SELECT title, duration, start_time, end_time, is_tracking FROM tasks ORDER BY end_time;
             """)
         rows = cursor.fetchall()
         print(rows)
