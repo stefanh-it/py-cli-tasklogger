@@ -5,7 +5,7 @@ from Classes.Database import Database as db
 
 app = typer.Typer()
 
-#Initialize Task object
+# Initialize Task object
 task = Task(title='')
 
 
@@ -22,11 +22,12 @@ def stop(title: str):
     task.end_task()
     print(task.duration)
 
+
 @app.command()
 def testdb():
     """Test the database."""
-    db('tasks.db')
-    print(db.get_connection())
+    first_db = db()
+    print(first_db.get_connection())
 
 
 def main(title):
@@ -35,5 +36,6 @@ def main(title):
     time.sleep(1)
     x.end_task()
 
-if __name__ == "__main__":  
+
+if __name__ == "__main__":
     app()
