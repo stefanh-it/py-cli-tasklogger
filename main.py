@@ -17,21 +17,31 @@ class Task():
     duration = 0
     start_time = 0
     end_time = 0
+    is_tracking = False
     def __init__(self, title):
         self.title = title
         print(self.title)
 
     def start_task(self):
         print(f'Start {self.title} at:')
-        self.start_time = datetime.datetime.now()
-        print(self.start_time)
+        if self.is_tracking is False:
+            self.start_time = datetime.datetime.now()
+            self.is_tracking = True
+            print(self.start_time)
+        else:
+            print('Task is already tracking')
 
     def end_task(self):
         print(f'Stop {self.title} at:')
-        self.end_time = datetime.datetime.now()
-        print(self.end_time)
-        if self.end_time != self.start_time:
+        if self.is_tracking is True:
+            self.end_time = datetime.datetime.now()
+            self.is_tracking = False
+            print(self.end_time)
             duration = self.end_time - self.start_time
+            print(f"Duration: {str(duration)}")
+        else: 
+            print('Task is not tracking')
+
 
 def main(title):
     x = Task(title)
