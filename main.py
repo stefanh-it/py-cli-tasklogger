@@ -2,6 +2,8 @@ import datetime
 import time
 import typer
 
+app = typer.Typer()
+
 # from datetime import timedelta
 # delta = timedelta(
 #     days=50,
@@ -42,6 +44,17 @@ class Task():
         else: 
             print('Task is not tracking')
 
+task = Task(title='')
+
+@app.command()
+def start(title: str):
+    task.start_task()
+    print(task.title)
+
+@ app.command()
+def stop(title: str):
+    task.end_task()
+    print(task.duration)
 
 def main(title):
     x = Task(title)
@@ -50,4 +63,4 @@ def main(title):
     x.end_task()
 
 if __name__ == "__main__":  
-    typer.run(main)
+    app()
