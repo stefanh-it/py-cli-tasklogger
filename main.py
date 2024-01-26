@@ -19,17 +19,11 @@ class Task():
         if self.end_time != self.start_time:
             duration = self.end_time - self.start_time
             print(duration)
-        
 
-x = Task('Erste Aufgabe')
+def main():        
+    x = Task('Erste Aufgabe')
+    x.start_task()
+    time.sleep(5)
+    x.end_task()
 
-typer.run(x.start_task())
-
-time.sleep(5)
-
-typer.run(x.end_task())
-# def main(name: str):
-#     print(f"Hi {name}")
-
-# if __name__ == "__main__":
-#     typer.run(main)
+typer.run(main)
