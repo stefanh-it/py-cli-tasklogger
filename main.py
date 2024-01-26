@@ -26,6 +26,8 @@ def stop(title: str):
 def testdb():
     """Test the database."""
     db('tasks.db')
+    print(db.get_connection())
+
 
 def main(title):
     x = Task(title)
