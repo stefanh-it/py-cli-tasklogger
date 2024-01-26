@@ -19,6 +19,7 @@ class Task():
     end_time = 0
     def __init__(self, title):
         self.title = title
+        print(self.title)
 
     def start_task(self):
         print(f'Start {self.title} at:')
@@ -32,8 +33,8 @@ class Task():
         if self.end_time != self.start_time:
             duration = self.end_time - self.start_time
 
-def main():
-    x = Task('Erste Aufgabe')
+def main(title):
+    x = Task(title)
     x.start_task()
     time.sleep(1)
     x.end_task()
