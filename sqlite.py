@@ -1,17 +1,18 @@
 import sqlite3
 
 # Connect to SQLite database (or create a new one if it doesn't exist)
-conn = sqlite3.connect('example.db')
+conn = sqlite3.connect('tasks.db')
 
 # Create a cursor object to interact with the database
 cursor = conn.cursor()
 
 # Define a table schema and create the table
 cursor.execute('''
-    CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY,
-        name TEXT,
-        age INTEGER
+    CREATE TABLE IF NOT EXISTS tasks (
+    duration TEXT
+    start_time TEXT
+    end_time TEXT
+    is_tracking INTEGER
     )
 ''')
 
