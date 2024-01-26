@@ -14,16 +14,17 @@ class Task():
         print(self.start_time)
 
     def end_task(self):
-        self.end_time = datetime.date.now()
+        self.end_time = datetime.datetime.now()
         print(self.end_time)
         if self.end_time != self.start_time:
             duration = self.end_time - self.start_time
             print(duration)
 
-def main():        
+def main():
     x = Task('Erste Aufgabe')
     x.start_task()
-    time.sleep(5)
+    time.sleep(1)
     x.end_task()
 
-typer.run(main)
+if __name__ == "__main__":  
+    typer.run(main)
