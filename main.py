@@ -1,22 +1,31 @@
-import sqlite3
 import time
 import typer
 from Classes.Task import Task
+from Classes.Database import Database as db
 
 app = typer.Typer()
 
-
+#Initialize Task object
 task = Task(title='')
+
 
 @app.command()
 def start(title: str):
+    """Start a new task."""
     task.start_task()
     print(task.title)
 
+
 @ app.command()
 def stop(title: str):
+    """Stop the current task."""
     task.end_task()
     print(task.duration)
+
+@app.command()
+def testdb():
+    """Test the database."""
+    db('tasks.db')
 
 def main(title):
     x = Task(title)
