@@ -20,7 +20,7 @@ class Database():
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS tasks (
             id INTEGER PRIMARY KEY,
-            title TEXT,
+            title TEXT UNIQUE,
             duration TEXT,
             start_time TEXT,
             end_time TEXT,
@@ -32,7 +32,7 @@ class Database():
         conn.commit()
         # Close the cursor and connection
         cursor.close()
-        self.db_close()
+        # self.db_close()
 
     def db_close(self):
         self.connection.close()
@@ -41,14 +41,19 @@ class Database():
     def get_connection(self):
         return self.connection
 
-    def db_insert(self, title, duration, start_time, end_time, is_tracking):
+    def insert_task(self, title, duration, start_time, end_time, is_tracking):
         conn = self.db_connect()
         cursor = self.connection.cursor()
-        cursor.execute('''
+        try:
+            cursor.execute('''
             INSERT INTO tasks (title, duration, start_time, end_time, is_tracking)
             VALUES (?, ?, ?, ?, ?);
-        ''', (title, duration, start_time, end_time, is_tracking))
-        conn.commit()
+            ''', (title, duration, start_time, end_time, is_tracking))
+            conn.commit()
+            print(f"Finished creating task: {title}")
+            self.read_task_by_title(title)
+        except sqlite3.IntegrityError as e:
+            print(f"Task {title} already exists")
         cursor.close()
         self.db_close()
 
@@ -58,5 +63,14 @@ class Database():
         cursor.execute("""
             SELECT title, duration, start_time, end_time, is_tracking FROM tasks ORDER BY end_time;
             """)
+        rows = cursor.fetchall()
+        print(rows)
+
+    def read_task_by_title(self, title):
+        conn = self.db_connect()
+        cursor = self.connection.cursor()
+        cursor.execute("""
+            SELECT id, title, duration, start_time, end_time, is_tracking FROM tasks WHERE title =?
+            """, (title,))
         rows = cursor.fetchall()
         print(rows)

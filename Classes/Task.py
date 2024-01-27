@@ -9,15 +9,23 @@
 #     weeks=2
 # )
 import datetime
+import sys
+from Classes.Database import Database as db
+
 
 class Task():
     duration = 0
     start_time = 0
     end_time = 0
     is_tracking = False
+    database = db()
+
     def __init__(self, title):
         self.title = title
-        print(self.title)
+        print(f"Creating task: {self.title}")
+        self.database.insert_task(self.title, "0", "0", "0", 0)
+
+        # print("Unexpected error:", sys.exc_info()[0])
 
     def start_task(self):
         print(f'Start {self.title} at:')
@@ -36,9 +44,11 @@ class Task():
             print(self.end_time)
             duration = self.end_time - self.start_time
             print(f"Duration: {str(duration)}")
-        else: 
+        else:
             print('Task is not tracking')
 
-if __name__ == "__main__": 
-    Task('**args')
+#    def __check_if_task_exists(self):
 
+
+if __name__ == "__main__":
+    Task('**args')
