@@ -62,8 +62,7 @@ class Database():
         cursor = self.connection.cursor()
         try:
             cursor.execute("""
-            UPDATE tasks SET(title, duration, start_time, end_time, is_tracking)
-            VALUES (?, ?, ?, ?, ?)
+            UPDATE tasks SET title=?, duration=?, start_time=?, end_time=?, is_tracking=?
             WHERE id=?
             """, (title, duration, start_time, end_time, is_tracking, task_id,))
             conn.commit()
