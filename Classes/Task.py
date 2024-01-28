@@ -34,7 +34,7 @@ class Task():
         print(f'checking for {title}')
         self.database.read_task_by_title(title)
         print(f'Start {title} at:')
-        self.database.update_task('Title1', '10', '10', '10', 0, 2)
+        self.database.update_task(title, '10', '10', '10', 0, 2)
         # if self.is_tracking is False:
         #     self.start_time = datetime.datetime.now()
         #     self.is_tracking = True
