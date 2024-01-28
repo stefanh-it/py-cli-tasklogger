@@ -11,12 +11,15 @@ app = typer.Typer()
 @app.command()
 def create(title: str):
     task = Task(title)
+    task.create_task()
 
 
 @app.command()
 def start(title: str):
     """Start a new task."""
-    task.start_task()
+    task = Task(title)
+    task = task.getTask()
+    task.start_task(title)
     print(task.title)
 
 

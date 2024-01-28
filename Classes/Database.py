@@ -27,7 +27,7 @@ class Database():
             is_tracking INTEGER
             );
         ''')
-        print('Database initialized')
+        # print('Database initialized')
         # Commit the changes to the database
         conn.commit()
         # Close the cursor and connection
@@ -36,7 +36,7 @@ class Database():
 
     def db_close(self):
         self.connection.close()
-        print('Database closed')
+        # print('Database closed')
 
     def get_connection(self):
         return self.connection
@@ -57,6 +57,23 @@ class Database():
         cursor.close()
         self.db_close()
 
+    def update_task(self, title, duration, start_time, end_time, is_tracking, task_id):
+        conn = self.db_connect()
+        cursor = self.connection.cursor()
+        try:
+            cursor.execute("""
+            UPDATE tasks SET(title, duration, start_time, end_time, is_tracking)
+            VALUES (?, ?, ?, ?, ?)
+            WHERE id=?
+            """, (title, duration, start_time, end_time, is_tracking, task_id,))
+            conn.commit()
+            print(f"Finished updating task: {title}")
+            self.read_task_by_title(title)
+        except sqlite3.IntegrityError as e:
+            print(f"Task {title} already exists")
+        cursor.close()
+        self.db_close()
+
     def db_read(self):
         conn = self.db_connect()
         cursor = self.connection.cursor()
@@ -67,10 +84,44 @@ class Database():
         print(rows)
 
     def read_task_by_title(self, title):
-        conn = self.db_connect()
-        cursor = self.connection.cursor()
-        cursor.execute("""
-            SELECT id, title, duration, start_time, end_time, is_tracking FROM tasks WHERE title =?
-            """, (title,))
-        rows = cursor.fetchall()
-        print(rows)
+        try:
+            conn = self.db_connect()
+            cursor = self.connection.cursor()
+            cursor.execute("""
+                SELECT id, title, duration, start_time, end_time, is_tracking FROM tasks WHERE title =?
+                """, (title,))
+            rows = cursor.fetchall()
+
+            if len(rows) == 0:
+                print("task doesn't exist")
+
+            print(rows)
+        except Exception as e:
+            print(e)
+            print("Unexpected error:", sys.exc_info()[0])
+
+        self.db_close()
+
+    def create_task_from_db(self, title):
+        from Classes.Task import Task
+        try:
+            conn = self.db_connect()
+            cursor = self.connection.cursor()
+            cursor.execute("""
+                SELECT id, title, duration, start_time, end_time, is_tracking FROM tasks WHERE title =?
+                """, (title,))
+            row = cursor.fetchone()
+
+            if not row:
+                print("task doesn't exist")
+            else:
+                task = Task(title)
+                print("from database class" + str(task))
+                return task
+
+            print(rows)
+
+        except Exception as e:
+            print(e)
+            print("Unexpected error:", sys.exc_info()[0])
+        self.db_close()

@@ -14,6 +14,7 @@ from Classes.Database import Database as db
 
 
 class Task():
+    task_id: int
     duration = 0
     start_time = 0
     end_time = 0
@@ -22,19 +23,24 @@ class Task():
 
     def __init__(self, title):
         self.title = title
-        print(f"Creating task: {self.title}")
-        self.database.insert_task(self.title, "0", "0", "0", 0)
 
         # print("Unexpected error:", sys.exc_info()[0])
 
-    def start_task(self):
-        print(f'Start {self.title} at:')
-        if self.is_tracking is False:
-            self.start_time = datetime.datetime.now()
-            self.is_tracking = True
-            print(self.start_time)
-        else:
-            print('Task is already tracking')
+    def create_task(self):
+        print(f"Creating task: {self.title}")
+        self.database.insert_task(self.title, "0", "0", "0", 0)
+
+    def start_task(self, title):
+        print(f'checking for {title}')
+        self.database.read_task_by_title(title)
+        print(f'Start {title} at:')
+        self.database.update_task('Title1', '10', '10', '10', 0, 2)
+        # if self.is_tracking is False:
+        #     self.start_time = datetime.datetime.now()
+        #     self.is_tracking = True
+        #     print(self.start_time)
+        # else:
+        #     print('Task is already tracking')
 
     def end_task(self):
         print(f'Stop {self.title} at:')
@@ -47,7 +53,11 @@ class Task():
         else:
             print('Task is not tracking')
 
-#    def __check_if_task_exists(self):
+    def getTask(self):
+        self = self.database.create_task_from_db(self.title)
+        print("from task class" + str(self))
+        return self
+#    def_check_if_task_exists(self):
 
 
 if __name__ == "__main__":
